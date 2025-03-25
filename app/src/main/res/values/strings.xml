@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">D308 - Jswa142</string>
+    <string name="add_sample_code">Add Sample Code</string>
+    <string name="item">Item</string>
+    <string name="title">title</string>
+    <string name="titles">title:</string>
+    <string name="enter_a_title">enter a title</string>
+    <string name="hotel">hotel</string>
+    <string name="enter_hotel_name">enter hotel name</string>
+    <string name="start_date">start date</string>
 </resources>
