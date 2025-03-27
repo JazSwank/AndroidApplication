@@ -23,10 +23,10 @@ public interface ExcursionDAO {
     void delete(Excursion excursion);
 
     @Query("SELECT * FROM EXCURSIONS ORDER BY excursionID ASC")
-    List<Excursion> getAllParts();
+    List<Excursion> getAllExcursions();
 
-    @Query("SELECT * FROM EXCURSIONS WHERE vacationID = :vac ORDER BY excursionID ASC")
-    List<Excursion> getAssociatedParts(int vac);
+    @Query("SELECT * FROM EXCURSIONS WHERE vacationID = :vacID ORDER BY excursionID ASC")
+    List<Excursion> getAssociatedParts(int vacID);
 
 
 }

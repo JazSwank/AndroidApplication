@@ -9,11 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d308_jswa142.R;
+import com.example.d308_jswa142.database.Repository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class VacationDetails extends AppCompatActivity {
+    Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,5 +37,11 @@ public class VacationDetails extends AppCompatActivity {
             });
             return insets;
         });
+        RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
+        repository = new Repository(getApplication());
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
+        recyclerView.setAdapter(excursionAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        excursionAdapter.setExcursions(repository.getmAllExcursions());
     }
 }

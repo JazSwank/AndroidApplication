@@ -73,6 +73,20 @@ public class Repository {
         }
 
     }
+
+    public List<Excursion> getmAllExcursions(){
+        databaseExecutor.execute(()->{
+            mAllExcursions=mExcursionDAO.getAllExcursions();
+        });
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return mAllExcursions;
+    }
     public List<Excursion>getAssociatedParts(int vacationID){
         databaseExecutor.execute(()->{
             mAllExcursions=mExcursionDAO.getAssociatedParts(vacationID);
