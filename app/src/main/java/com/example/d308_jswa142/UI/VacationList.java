@@ -12,12 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.d308_jswa142.R;
 import com.example.d308_jswa142.database.Repository;
 import com.example.d308_jswa142.entities.Excursion;
 import com.example.d308_jswa142.entities.Vacation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class VacationList extends AppCompatActivity {
     private Repository repository;
@@ -38,9 +42,13 @@ public class VacationList extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-
-
-            System.out.println(getIntent().getStringExtra("test"));
+            RecyclerView recyclerView = findViewById(R.id.recyclerview);
+            repository = new Repository(getApplication());
+            List<Vacation> allVacations = repository.getmAllVacations();
+            final VacationAdapter vacationAdapter = new VacationAdapter(this);
+            recyclerView.setAdapter(vacationAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            vacationAdapter.setVacations(allVacations);
 
             return insets;
 
