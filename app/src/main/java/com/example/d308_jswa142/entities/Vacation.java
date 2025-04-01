@@ -39,4 +39,7 @@ public class Vacation {
     public void setHotelName(String hotelName) {
         this.hotelName = hotelName;
     }
+    public String toString() {
+        return vacationName;
+    }
 }

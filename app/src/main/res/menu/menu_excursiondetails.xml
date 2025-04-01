@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/saveexcursion"
+        android:title="Save Excursion" />
+    <item
+        android:id="@+id/share"
+        android:title="Share Note" />
+
+    <item
+        android:id="@+id/alert"
+        android:title="Alert" />
+
+
+</menu>

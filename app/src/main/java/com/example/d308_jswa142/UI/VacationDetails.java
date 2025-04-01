@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,9 @@ public class VacationDetails extends AppCompatActivity {
     EditText editTitle;
     EditText editName;
     Repository repository;
+
+    Vacation currentVacation;
+    int numExcursions;
 
 
     @Override
@@ -81,7 +85,7 @@ public class VacationDetails extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()== R.id.saveproduct){
+        if(item.getItemId()== R.id.savevacation){
             Vacation vacation;
             if(vacationID == -1) {
                 if(repository.getmAllVacations().isEmpty()) vacationID = 1;
@@ -96,6 +100,22 @@ public class VacationDetails extends AppCompatActivity {
                 this.finish();
             }
 
+        }
+        if(item.getItemId()== R.id.deletevacation) {
+            for(Vacation vac:repository.getmAllVacations()) {
+                if(vac.getVacationID() == vacationID) currentVacation = vac;
+            }
+            numExcursions = 0;
+            for(Excursion excursion: repository.getmAllExcursions()) {
+                if(excursion.getVacationID() == vacationID) ++ numExcursions;
+            }
+            if(numExcursions == 0) {
+                repository.delete(currentVacation);
+                Toast.makeText(VacationDetails.this, currentVacation.getVacationName() + "was deleted", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(VacationDetails.this, "Can't delete a vacation with excursions", Toast.LENGTH_SHORT).show();
+            }
         }
         return true;
     }

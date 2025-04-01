@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/saveproduct"
-        android:title="Save Product" />
+        android:id="@+id/savevacation"
+        android:title="Save Vacation" />
     <item
-        android:id="@+id/deleteproduct"
-        android:title="Delete Product" />
+        android:id="@+id/deletevacation"
+        android:title="Delete Vacation" />
 </menu>
