@@ -83,14 +83,14 @@ public class VacationList extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         if (item.getItemId() == R.id.mysample) {
             repository = new Repository(getApplication());
-            //Toast.makeText(VacationList.this, "put in sample data", Toast.LENGTH_LONG).show();
-            Vacation vacation = new Vacation(0, "Paris", "Chateau des Fleurs");
+            Toast.makeText(VacationList.this, "put in sample data", Toast.LENGTH_LONG).show();
+            Vacation vacation = new Vacation(0, "Paris", "Chateau des Fleurs", "01/01/2022", "01/01/2024");
             repository.insert(vacation);
-            vacation = new Vacation(0, "New York", "The Manhattan");
+            vacation = new Vacation(0, "New York", "The Manhattan", "01/01/2022", "01/01/2024");
             repository.insert(vacation);
-            Excursion excursion = new Excursion(0, "Scuba Diving", 1);
+            Excursion excursion = new Excursion(0, "Scuba Diving", 1, "01/01/2022");
             repository.insert(excursion);
-            excursion = new Excursion(0, "Cheese Tasting", 1);
+            excursion = new Excursion(0, "Cheese Tasting", 1, "01/01/2022");
             repository.insert(excursion);
 
             return true;

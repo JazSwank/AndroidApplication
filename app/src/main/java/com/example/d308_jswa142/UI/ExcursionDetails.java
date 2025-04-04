@@ -43,7 +43,6 @@ public class ExcursionDetails extends AppCompatActivity {
     Repository repository;
 
     EditText editName;
-    EditText editNote;
 
     TextView editDate;
 
@@ -62,11 +61,11 @@ public class ExcursionDetails extends AppCompatActivity {
         name = getIntent().getStringExtra("excursionName");
         excursionid = getIntent().getIntExtra("excursionID", -1);
         editName.setText(name);
-        editNote = findViewById(R.id.note);
         editDate = findViewById(R.id.date);
 
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        sdf.setLenient(false);
 
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +73,7 @@ public class ExcursionDetails extends AppCompatActivity {
                 Date date;
                 String info = editDate.getText().toString();
                 if (info.isEmpty()) info = "04/10/2024";
+
                 try {
                     myCalendarStart.setTime(sdf.parse(info));
                 } catch (ParseException e) {
@@ -127,31 +127,21 @@ public class ExcursionDetails extends AppCompatActivity {
             return true;
         }
         if (item.getItemId() == R.id.saveexcursion) {
+
             Excursion excursion;
             if (excursionid == -1) {
                 if (repository.getmAllExcursions().isEmpty()) excursionid = 1;
                 else
                     excursionid = repository.getmAllExcursions().get(repository.getmAllExcursions().size() - 1).getExcursionID() + 1;
-                excursion = new Excursion(excursionid, editName.getText().toString(), vacationID);
+                excursion = new Excursion(excursionid, editName.getText().toString(), vacationID, editDate.getText().toString());
                 repository.insert(excursion);
                 this.finish();
             } else {
-                excursion = new Excursion(excursionid, editName.getText().toString(), vacationID);
+                excursion = new Excursion(excursionid, editName.getText().toString(), vacationID, editDate.getText().toString());
                 repository.update(excursion);
                 this.finish();
 
             }
-            return true;
-        }
-
-        if (item.getItemId() == R.id.share) {
-            Intent sentIntent = new Intent();
-            sentIntent.setAction(Intent.ACTION_SEND);
-            sentIntent.putExtra(Intent.EXTRA_TEXT, editNote.getText().toString() + "Extra_Text");
-            sentIntent.putExtra(Intent.EXTRA_TITLE, editNote.getText().toString() + "Extra_Title");
-            sentIntent.setType("text/plain");
-            Intent shareIntent = Intent.createChooser(sentIntent, null);
-            startActivity(shareIntent);
             return true;
         }
         if (item.getItemId() == R.id.alert) {
@@ -166,7 +156,7 @@ public class ExcursionDetails extends AppCompatActivity {
             }
             Long trigger = myDate.getTime();
             Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
-            intent.putExtra("key", "message I want to see");
+            intent.putExtra("key", "Your " + name + " starts today!" );
             PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent,
                     PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

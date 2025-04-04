@@ -3,6 +3,8 @@ package com.example.d308_jswa142.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "vacations")
 public class Vacation {
     @PrimaryKey(autoGenerate = true)
@@ -10,10 +12,15 @@ public class Vacation {
     private String vacationName;
     private String hotelName;
 
-    public Vacation(int vacationID, String vacationName, String hotelName) {
+    private String startDate;
+    private String endDate;
+
+    public Vacation(int vacationID, String vacationName, String hotelName, String startDate, String endDate) {
         this.vacationID = vacationID;
         this.vacationName = vacationName;
         this.hotelName = hotelName;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public int getVacationID() {
@@ -41,5 +48,21 @@ public class Vacation {
     }
     public String toString() {
         return vacationName;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

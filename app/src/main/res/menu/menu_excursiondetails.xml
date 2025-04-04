@@ -4,9 +4,10 @@
     <item
         android:id="@+id/saveexcursion"
         android:title="Save Excursion" />
+
     <item
-        android:id="@+id/share"
-        android:title="Share Note" />
+        android:id="@+id/deleteexcursion"
+        android:title="Delete Excursion" />
 
     <item
         android:id="@+id/alert"
