@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,7 +47,9 @@ public class ExcursionDetails extends AppCompatActivity {
 
     TextView editDate;
 
-    DatePickerDialog.OnDateSetListener startDate;
+    Excursion currentExcursion;
+
+    DatePickerDialog.OnDateSetListener excursionDate;
     final Calendar myCalendarStart = Calendar.getInstance();
 
     @Override
@@ -79,12 +82,12 @@ public class ExcursionDetails extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                new DatePickerDialog(ExcursionDetails.this, startDate, myCalendarStart.get(Calendar.YEAR),
+                new DatePickerDialog(ExcursionDetails.this, excursionDate, myCalendarStart.get(Calendar.YEAR),
                         myCalendarStart.get(Calendar.MONTH), myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
 
             }
         });
-        startDate = new DatePickerDialog.OnDateSetListener() {
+        excursionDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 myCalendarStart.set(Calendar.YEAR, year);
@@ -128,6 +131,39 @@ public class ExcursionDetails extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.saveexcursion) {
 
+            String excursionDateStr = editDate.getText().toString();
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            sdf.setLenient(false);
+
+            Date excursionDate = null;
+            try {
+                excursionDate = sdf.parse(excursionDateStr);
+            } catch (ParseException e) {
+                Toast.makeText(this, "Invalid date format.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            Spinner spinner = findViewById(R.id.spinner);
+            Vacation selectedVacation = (Vacation) spinner.getSelectedItem();
+            vacationID = selectedVacation.getVacationID();
+
+            Date startDate = null;
+            Date endDate = null;
+            try {
+                startDate = sdf.parse(selectedVacation.getStartDate());
+                endDate = sdf.parse(selectedVacation.getEndDate());
+            } catch (ParseException e) {
+                Toast.makeText(this, "Invalid vacation dates.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            if (excursionDate.before(startDate) || excursionDate.after(endDate)) {
+                Toast.makeText(this, "Excursion date must be within the vacation dates.", Toast.LENGTH_LONG).show();
+                return true;
+            }
+
+
             Excursion excursion;
             if (excursionid == -1) {
                 if (repository.getmAllExcursions().isEmpty()) excursionid = 1;
@@ -144,6 +180,18 @@ public class ExcursionDetails extends AppCompatActivity {
             }
             return true;
         }
+
+        if (item.getItemId() == R.id.deleteexcursion) {
+
+            for (Excursion excursion : repository.getmAllExcursions()) {
+                if (excursion.getExcursionID() == excursionid) currentExcursion = excursion;
+            }
+            repository.delete(currentExcursion);
+            Toast.makeText(ExcursionDetails.this, currentExcursion.getExcursionName() + " was deleted", Toast.LENGTH_LONG).show();
+            ExcursionDetails.this.finish();
+
+        }
+
         if (item.getItemId() == R.id.alert) {
             String dateFromScreen = editDate.getText().toString();
             String myFormat = "MM/dd/yy";

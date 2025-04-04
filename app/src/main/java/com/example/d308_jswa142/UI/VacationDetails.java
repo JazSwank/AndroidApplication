@@ -165,6 +165,7 @@ public class VacationDetails extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(VacationDetails.this, ExcursionDetails.class);
+                    intent.putExtra("vacationID", vacationID);
                     startActivity(intent);
                 }
             });
@@ -298,6 +299,22 @@ public class VacationDetails extends AppCompatActivity {
 
         editSdate.setText(sdf.format(myCalendarStart.getTime()));
         editEdate.setText(sdf.format(myCalendarEnd.getTime()));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
+        recyclerView.setAdapter(excursionAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        List<Excursion> filteredExcursions = new ArrayList<>();
+        for (Excursion e : repository.getmAllExcursions()) {
+            if (e.getVacationID() == vacationID) filteredExcursions.add(e);
+        }
+        excursionAdapter.setExcursions(filteredExcursions);
     }
 
 
