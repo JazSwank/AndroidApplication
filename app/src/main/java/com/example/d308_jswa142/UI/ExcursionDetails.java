@@ -41,6 +41,7 @@ public class ExcursionDetails extends AppCompatActivity {
     int excursionid;
     int vacationID;
 
+
     Repository repository;
 
     EditText editName;
@@ -65,10 +66,36 @@ public class ExcursionDetails extends AppCompatActivity {
         excursionid = getIntent().getIntExtra("excursionID", -1);
         editName.setText(name);
         editDate = findViewById(R.id.date);
+        String dateString = getIntent().getStringExtra("excursionDate");
+
+// Fallback if the date is null or invalid
+        if (dateString == null || dateString.isEmpty()) {
+            dateString = "04/10/2024"; // default fallback date
+        }
+
+        editDate.setText(dateString);
+
+        try {
+            myCalendarStart.setTime(new SimpleDateFormat("MM/dd/yy", Locale.US).parse(dateString));
+        } catch (ParseException e) {
+            e.printStackTrace(); // log it
+            Toast.makeText(this, "Could not parse date, using today.", Toast.LENGTH_SHORT).show();
+            myCalendarStart.setTime(new Date());
+        }
 
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         sdf.setLenient(false);
+
+        excursionDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                myCalendarStart.set(Calendar.YEAR, year);
+                myCalendarStart.set(Calendar.MONTH, month);
+                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabelStart();
+            }
+        };
 
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,15 +114,6 @@ public class ExcursionDetails extends AppCompatActivity {
 
             }
         });
-        excursionDate = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                myCalendarStart.set(Calendar.YEAR, year);
-                myCalendarStart.set(Calendar.MONTH, month);
-                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabelStart();
-            }
-        };
 
         Spinner spinner = findViewById(R.id.spinner);
         ArrayList<Vacation> vacationArrayList = new ArrayList<>();
