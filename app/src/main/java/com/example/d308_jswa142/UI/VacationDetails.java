@@ -82,6 +82,11 @@ public class VacationDetails extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         sdf.setLenient(false);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         for (Vacation vac : repository.getmAllVacations()) {
             if (vac.getVacationID() == vacationID) {
                 currentVacation = vac;
@@ -138,9 +143,6 @@ public class VacationDetails extends AppCompatActivity {
                 myCalendarStart.set(Calendar.YEAR, year);
                 myCalendarStart.set(Calendar.MONTH, month);
                 myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                myCalendarEnd.set(Calendar.YEAR, year);
-                myCalendarEnd.set(Calendar.MONTH, month);
-                myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateLabelStart();
             }
         };
@@ -151,8 +153,9 @@ public class VacationDetails extends AppCompatActivity {
                 myCalendarEnd.set(Calendar.YEAR, year);
                 myCalendarEnd.set(Calendar.MONTH, month);
                 myCalendarEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabelStart();
+                updateLabelEnd();
             }
+
         };
 
 
@@ -168,6 +171,7 @@ public class VacationDetails extends AppCompatActivity {
                     intent.putExtra("vacationID", vacationID);
                     startActivity(intent);
                 }
+
             });
             return insets;
         });
@@ -245,6 +249,11 @@ public class VacationDetails extends AppCompatActivity {
             }
         }
 
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
         if (item.getItemId() == R.id.share) {
             Intent sentIntent = new Intent();
             sentIntent.setAction(Intent.ACTION_SEND);
@@ -296,8 +305,13 @@ public class VacationDetails extends AppCompatActivity {
     private void updateLabelStart () {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
         editSdate.setText(sdf.format(myCalendarStart.getTime()));
+
+    }
+
+    private void updateLabelEnd () {
+        String myFormat = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editEdate.setText(sdf.format(myCalendarEnd.getTime()));
     }
 

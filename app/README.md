@@ -1,6 +1,6 @@
 # Android App: Vacation Planner
 
-This project is an opportunity for students to  students to create page layouts with clean navigation, design mobile application infrastructure and user interfaces,
+This project is an opportunity for students to create page layouts with clean navigation, design mobile application infrastructure and user interfaces,
 develop secure database-backed mobile applications in an object-oriented language, document solutions for application requirements with storyboards and emulators,
 articulate challenges in the development process, and describe alternatives methods in overcoming mobile application development problems.
 
