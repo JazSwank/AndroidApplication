@@ -19,3 +19,7 @@ You can also use the plus at the bottom right of the page which will direct you 
 
 On the Excursion Details page, you can add the name of an excursion and date. The dots in the top right corner allow you to save, delete, and alert for this excursion. The date for this
 excursion is required to be within the start and end date of the vacation you are adding it to. 
+
+APK: Android Version 16
+
+Gitlab Repo: https://gitlab.com/wgu-gitlab-environment/student-repos/jswa142/d308-mobile-application-development-android.git
