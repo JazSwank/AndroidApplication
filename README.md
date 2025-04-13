@@ -22,4 +22,3 @@ excursion is required to be within the start and end date of the vacation you ar
 
 APK: Android Version 16
 
-Gitlab Repo: https://gitlab.com/wgu-gitlab-environment/student-repos/jswa142/d308-mobile-application-development-android.git
